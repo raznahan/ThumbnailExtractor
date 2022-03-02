@@ -5,7 +5,7 @@ Thumbnail Extractor is a command-line tool that automatically generates thumbnai
 ## Preview
 
 
-![](./extras/readme/ThumbnailExtractorPreview.mp4)
+![](./extras/readme/preview.gif)
 
 
 ## About the **Project**
