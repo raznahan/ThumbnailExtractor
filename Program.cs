@@ -35,6 +35,7 @@ namespace ThumbnailExtractor
                     MPG(args[1]).Wait();
                     break;
                 default:
+                    Console.WriteLine("wrong command. List of available commands:\nExtract PreviewMP4 MPG");
                     break;
             }
 
@@ -49,18 +50,20 @@ namespace ThumbnailExtractor
 
                 var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var files = Directory.GetFiles(currentPath, "*.mp4");
-
+                int sum=0;
                 if (files.Any())
                 {
                     foreach (var item in files)
                     {
-                        var stream = new FileStream(currentPath + "\\" + Path.GetFileNameWithoutExtension(item) + ".jpg", FileMode.CreateNew);
+                        var stream = new FileStream(currentPath + "\\" + Path.GetFileNameWithoutExtension(item) + ".jpg", FileMode.Create);
 
                         converter.GetVideoThumbnail(item, stream, FrameTime);
 
                         await stream.FlushAsync();
 
                         stream.Close();
+                        sum++;
+                        Console.WriteLine("thumbnail for "+Path.GetFileNameWithoutExtension(item)+" was created.");
                     }
                 }
                 else
@@ -69,7 +72,7 @@ namespace ThumbnailExtractor
                     Console.WriteLine("No mp4 video found.");
                 }
 
-                Console.WriteLine("Done:)");
+                Console.WriteLine("Done:) Total of "+sum+" thumbnails were created.");
                 Console.ReadLine();
 
             }
@@ -158,7 +161,8 @@ namespace ThumbnailExtractor
             {
                 var converter = new FFMpegConverter();
 
-                var files = Directory.GetFiles(directoryPath, "*.mp4");
+                var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var files = Directory.GetFiles(currentPath, "*.mp4");
 
                 if (files.Any())
                 {
